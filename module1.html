@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apprendre à lire l'arabe - Méthode progressive</title>
+    <title>Module 1 : Alphabet isolé - Apprendre l'arabe</title>
     <style>
         * {
             margin: 0;
@@ -46,112 +46,8 @@
             margin-bottom: 20px;
         }
 
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #ecf0f1;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #f39c12, #e74c3c);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .module-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .module-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-        }
-
-        .module-card.locked {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .module-card.locked::after {
-            content: "🔒";
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.2em;
-        }
-
-        .module-card.completed::after {
-            content: "✅";
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            font-size: 1.2em;
-        }
-
-        .module-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .module-number {
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            margin-right: 15px;
-        }
-
-        .module-title {
-            font-size: 1.4em;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .module-description {
-            color: #7f8c8d;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-
-        .lesson-content {
-            display: none;
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 15px;
-            padding: 30px;
-            margin-top: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .lesson-content.active {
-            display: block;
-        }
-
-        .back-btn {
-            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+        .back-home {
+            background: linear-gradient(135dev, #95a5a6, #7f8c8d);
             color: white;
             border: none;
             padding: 10px 20px;
@@ -159,11 +55,20 @@
             cursor: pointer;
             margin-bottom: 20px;
             transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .back-btn:hover {
+        .back-home:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(127, 140, 141, 0.4);
+        }
+
+        .lesson-content {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         .lesson-header {
@@ -262,10 +167,7 @@
             padding: 25px;
             margin: 20px 0;
             text-align: center;
-        }
-
-        .letter-detail.active {
-            display: block;
+            display: none;
         }
 
         .arabic-text {
@@ -419,12 +321,15 @@
             border-radius: 15px;
             text-align: center;
             margin: 20px 0;
+            display: none;
         }
 
-        .lesson-progress {
-            text-align: center;
-            margin: 20px 0;
-            color: #7f8c8d;
+        .alphabet-lesson {
+            display: none;
+        }
+
+        .alphabet-lesson.active {
+            display: block;
         }
 
         @media (max-width: 768px) {
@@ -434,10 +339,6 @@
             
             h1 {
                 font-size: 2em;
-            }
-            
-            .modules-grid {
-                grid-template-columns: 1fr;
             }
             
             .alphabet-grid {
@@ -458,90 +359,16 @@
 <body>
     <div class="container">
         <header>
-            <h1>🌟 Apprendre à lire l'arabe</h1>
-            <p class="subtitle">Méthode progressive et structurée</p>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <div class="lesson-progress" id="progressText">Progression : 0%</div>
+            <h1>📚 Module 1 : Alphabet isolé</h1>
+            <p class="subtitle">Découvrez les 28 lettres de l'alphabet arabe</p>
         </header>
 
-        <div id="moduleSelection">
-            <div class="modules-grid">
-                <div class="module-card" data-module="1">
-                    <div class="module-header">
-                        <div class="module-number">1</div>
-                        <div class="module-title">Alphabet isolé</div>
-                    </div>
-                    <div class="module-description">
-                        Apprendre les 28 lettres de l'alphabet arabe dans leur forme isolée avec des exemples pratiques
-                    </div>
-                    <div style="margin-top: 15px; color: #3498db;">
-                        <strong>28 lettres • 5 leçons progressives</strong>
-                    </div>
-                </div>
+        <a href="index.html" class="back-home">← Retour à l'accueil</a>
 
-                <div class="module-card locked" data-module="2">
-                    <div class="module-header">
-                        <div class="module-number">2</div>
-                        <div class="module-title">Formes contextuelles</div>
-                    </div>
-                    <div class="module-description">
-                        Découvrir les formes des lettres au début, milieu et fin des mots
-                    </div>
-                    <div style="margin-top: 15px; color: #3498db;">
-                        <strong>Débloqué après le Module 1</strong>
-                    </div>
-                </div>
-
-                <div class="module-card locked" data-module="3">
-                    <div class="module-header">
-                        <div class="module-number">3</div>
-                        <div class="module-title">Voyelles courtes</div>
-                    </div>
-                    <div class="module-description">
-                        Maîtriser les voyelles fatha, kasra et damma
-                    </div>
-                    <div style="margin-top: 15px; color: #3498db;">
-                        <strong>Débloqué après le Module 2</strong>
-                    </div>
-                </div>
-
-                <div class="module-card locked" data-module="4">
-                    <div class="module-header">
-                        <div class="module-number">4</div>
-                        <div class="module-title">Voyelles longues</div>
-                    </div>
-                    <div class="module-description">
-                        Apprendre les voyelles longues et les tanwin
-                    </div>
-                    <div style="margin-top: 15px; color: #3498db;">
-                        <strong>Débloqué après le Module 3</strong>
-                    </div>
-                </div>
-
-                <div class="module-card locked" data-module="5">
-                    <div class="module-header">
-                        <div class="module-number">5</div>
-                        <div class="module-title">Lecture complète</div>
-                    </div>
-                    <div class="module-description">
-                        Lire des mots et phrases complètes en arabe
-                    </div>
-                    <div style="margin-top: 15px; color: #3498db;">
-                        <strong>Débloqué après le Module 4</strong>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Module 1: Alphabet isolé -->
-        <div class="lesson-content" id="module1">
-            <button class="back-btn" onclick="showModuleSelection()">← Retour aux modules</button>
-            
+        <div class="lesson-content">
             <div class="lesson-header">
-                <h2 class="lesson-title">Module 1 : Alphabet isolé</h2>
-                <p class="lesson-subtitle">Découvrez les 28 lettres de l'alphabet arabe</p>
+                <h2 class="lesson-title">Alphabet arabe isolé</h2>
+                <p class="lesson-subtitle">Apprenez chaque lettre avec des exemples pratiques</p>
             </div>
 
             <div class="lesson-nav">
@@ -557,33 +384,33 @@
                 <h3 style="text-align: center; color: #2c3e50; margin-bottom: 25px;">Leçon 1 : Les premières lettres (Alif à Hā)</h3>
                 
                 <div class="alphabet-grid">
-                    <div class="letter-card current" onclick="showLetterDetail(0)">
+                    <div class="letter-card current" onclick="showLetterDetail(0, 1)">
                         <div class="arabic-letter">ا</div>
                         <div class="letter-name">Alif</div>
                     </div>
-                    <div class="letter-card" onclick="showLetterDetail(1)">
+                    <div class="letter-card" onclick="showLetterDetail(1, 1)">
                         <div class="arabic-letter">ب</div>
                         <div class="letter-name">Bā</div>
                     </div>
-                    <div class="letter-card" onclick="showLetterDetail(2)">
+                    <div class="letter-card" onclick="showLetterDetail(2, 1)">
                         <div class="arabic-letter">ت</div>
                         <div class="letter-name">Tā</div>
                     </div>
-                    <div class="letter-card" onclick="showLetterDetail(3)">
+                    <div class="letter-card" onclick="showLetterDetail(3, 1)">
                         <div class="arabic-letter">ث</div>
                         <div class="letter-name">Thā</div>
                     </div>
-                    <div class="letter-card" onclick="showLetterDetail(4)">
+                    <div class="letter-card" onclick="showLetterDetail(4, 1)">
                         <div class="arabic-letter">ج</div>
                         <div class="letter-name">Jīm</div>
                     </div>
-                    <div class="letter-card" onclick="showLetterDetail(5)">
+                    <div class="letter-card" onclick="showLetterDetail(5, 1)">
                         <div class="arabic-letter">ح</div>
                         <div class="letter-name">Ḥā</div>
                     </div>
                 </div>
 
-                <div class="letter-detail" id="letterDetail1" style="display: none;">
+                <div class="letter-detail" id="letterDetail1">
                     <h3 id="letterTitle1" style="color: #2c3e50; margin-bottom: 15px;"></h3>
                     <div class="arabic-text" id="currentLetter1"></div>
                     <button class="audio-btn" onclick="playLetterSound()">🔊 Écouter la prononciation</button>
@@ -598,586 +425,38 @@
                     <div class="quiz-question">
                         <p style="font-size: 1.1em;">Quelle est cette lettre : <span style="font-size: 2.5em; color: #e74c3c;">ب</span></p>
                         <div class="quiz-options">
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 3, 1)">ض (Ḍād)</button>
-                        </div>
-                    </div>
-                    
-                    <div class="quiz-question">
-                        <p style="font-size: 1.1em;">Quelle est la différence entre "ع" et "غ" ?</p>
-                        <div class="quiz-options">
-                            <button class="quiz-option" onclick="checkAnswer(this, true, 3, 2)">ع = ʿAyn, غ = Ghayn</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 3, 2)">ع = Ghayn, غ = ʿAyn</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 3, 2)">Elles sont identiques</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 3, 2)">ع = Fā, غ = Qāf</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Leçon 4: Lettres Fā à Nūn -->
-            <div id="alphabetLesson4" class="alphabet-lesson" style="display: none;">
-                <h3 style="text-align: center; color: #2c3e50; margin-bottom: 25px;">Leçon 4 : Lettres Fā à Nūn</h3>
-                
-                <div class="alphabet-grid">
-                    <div class="letter-card" onclick="showLetterDetail(19)">
-                        <div class="arabic-letter">ف</div>
-                        <div class="letter-name">Fā</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(20)">
-                        <div class="arabic-letter">ق</div>
-                        <div class="letter-name">Qāf</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(21)">
-                        <div class="arabic-letter">ك</div>
-                        <div class="letter-name">Kāf</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(22)">
-                        <div class="arabic-letter">ل</div>
-                        <div class="letter-name">Lām</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(23)">
-                        <div class="arabic-letter">م</div>
-                        <div class="letter-name">Mīm</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(24)">
-                        <div class="arabic-letter">ن</div>
-                        <div class="letter-name">Nūn</div>
-                    </div>
-                </div>
-
-                <div class="letter-detail" id="letterDetail4" style="display: none;">
-                    <h3 id="letterTitle4" style="color: #2c3e50; margin-bottom: 15px;"></h3>
-                    <div class="arabic-text" id="currentLetter4"></div>
-                    <button class="audio-btn" onclick="playLetterSound()">🔊 Écouter la prononciation</button>
-                    
-                    <div class="examples-grid" id="letterExamples4">
-                        <!-- Exemples générés par JavaScript -->
-                    </div>
-                </div>
-
-                <div class="exercise-section">
-                    <h3 class="exercise-title">🎯 Exercice 4 : Différenciation</h3>
-                    <div class="quiz-question">
-                        <p style="font-size: 1.1em;">Différenciez "Fā" et "Qāf" :</p>
-                        <div class="quiz-options">
-                            <button class="quiz-option" onclick="checkAnswer(this, true, 4, 1)">ف = Fā, ق = Qāf</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 4, 1)">ف = Qāf, ق = Fā</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 4, 1)">ف = Kāf, ق = Lām</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 4, 1)">Elles sont identiques</button>
-                        </div>
-                    </div>
-                    
-                    <div class="quiz-question">
-                        <p style="font-size: 1.1em;">Quelle lettre a un point au-dessus ?</p>
-                        <div class="quiz-options">
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 4, 2)">م</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, true, 4, 2)">ن</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 4, 2)">ل</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 4, 2)">ك</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Leçon 5: Dernières lettres -->
-            <div id="alphabetLesson5" class="alphabet-lesson" style="display: none;">
-                <h3 style="text-align: center; color: #2c3e50; margin-bottom: 25px;">Leçon 5 : Dernières lettres (Hā à Yā)</h3>
-                
-                <div class="alphabet-grid">
-                    <div class="letter-card" onclick="showLetterDetail(25)">
-                        <div class="arabic-letter">ه</div>
-                        <div class="letter-name">Hā</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(26)">
-                        <div class="arabic-letter">و</div>
-                        <div class="letter-name">Wāw</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(27)">
-                        <div class="arabic-letter">ي</div>
-                        <div class="letter-name">Yā</div>
-                    </div>
-                </div>
-
-                <div class="letter-detail" id="letterDetail5" style="display: none;">
-                    <h3 id="letterTitle5" style="color: #2c3e50; margin-bottom: 15px;"></h3>
-                    <div class="arabic-text" id="currentLetter5"></div>
-                    <button class="audio-btn" onclick="playLetterSound()">🔊 Écouter la prononciation</button>
-                    
-                    <div class="examples-grid" id="letterExamples5">
-                        <!-- Exemples générés par JavaScript -->
-                    </div>
-                </div>
-
-                <div class="exercise-section">
-                    <h3 class="exercise-title">🎯 Test final : Récapitulatif alphabet</h3>
-                    <div class="quiz-question">
-                        <p style="font-size: 1.1em;">Combien y a-t-il de lettres dans l'alphabet arabe ?</p>
-                        <div class="quiz-options">
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 5, 1)">26</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, true, 5, 1)">28</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 5, 1)">30</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 5, 1)">32</button>
-                        </div>
-                    </div>
-                    
-                    <div class="quiz-question">
-                        <p style="font-size: 1.1em;">Quelles sont les trois dernières lettres de l'alphabet ?</p>
-                        <div class="quiz-options">
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 5, 2)">ن، م، ل</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, true, 5, 2)">ه، و، ي</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 5, 2)">و، ي، ز</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 5, 2)">ف، ق، ك</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="completion-message" id="module1Complete" style="display: none;">
-                    <h3>🎉 Félicitations !</h3>
-                    <p>Vous avez terminé le Module 1 - Alphabet isolé</p>
-                    <p>Vous connaissez maintenant les 28 lettres de l'alphabet arabe !</p>
-                    <button class="nav-btn" onclick="completeModule(1)" style="margin-top: 15px;">Débloquer le Module 2</button>
-                </div>
-            </div>
-
-            <div class="navigation">
-                <button class="nav-btn" onclick="prevAlphabetLesson()" id="prevAlphabetBtn" disabled>Leçon précédente</button>
-                <button class="nav-btn" onclick="nextAlphabetLesson()" id="nextAlphabetBtn">Leçon suivante</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Données de l'alphabet arabe avec exemples détaillés
-        const arabicAlphabet = [
-            {letter: 'ا', name: 'Alif', examples: [{word: 'أَب', translation: 'père'}, {word: 'أُم', translation: 'mère'}, {word: 'أَسَد', translation: 'lion'}]},
-            {letter: 'ب', name: 'Bā', examples: [{word: 'بَيْت', translation: 'maison'}, {word: 'بَاب', translation: 'porte'}, {word: 'بَحْر', translation: 'mer'}]},
-            {letter: 'ت', name: 'Tā', examples: [{word: 'تُفَّاح', translation: 'pomme'}, {word: 'تِلْمِيذ', translation: 'élève'}, {word: 'تَمْر', translation: 'datte'}]},
-            {letter: 'ث', name: 'Thā', examples: [{word: 'ثَلْج', translation: 'neige'}, {word: 'ثَوْب', translation: 'vêtement'}, {word: 'ثَعْلَب', translation: 'renard'}]},
-            {letter: 'ج', name: 'Jīm', examples: [{word: 'جَمَل', translation: 'chameau'}, {word: 'جَمِيل', translation: 'beau'}, {word: 'جَبَل', translation: 'montagne'}]},
-            {letter: 'ح', name: 'Ḥā', examples: [{word: 'حَلِيب', translation: 'lait'}, {word: 'حَدِيقَة', translation: 'jardin'}, {word: 'حِصَان', translation: 'cheval'}]},
-            {letter: 'خ', name: 'Khā', examples: [{word: 'خُبْز', translation: 'pain'}, {word: 'خَضَر', translation: 'légumes'}, {word: 'خَرُوف', translation: 'mouton'}]},
-            {letter: 'د', name: 'Dāl', examples: [{word: 'دَار', translation: 'maison'}, {word: 'دَرْس', translation: 'leçon'}, {word: 'دَجَاج', translation: 'poulet'}]},
-            {letter: 'ذ', name: 'Dhāl', examples: [{word: 'ذَهَب', translation: 'or'}, {word: 'ذِئْب', translation: 'loup'}, {word: 'ذُرَة', translation: 'maïs'}]},
-            {letter: 'ر', name: 'Rā', examples: [{word: 'رَأْس', translation: 'tête'}, {word: 'رِجْل', translation: 'pied'}, {word: 'رُز', translation: 'riz'}]},
-            {letter: 'ز', name: 'Zāy', examples: [{word: 'زَهْرَة', translation: 'fleur'}, {word: 'زَيْت', translation: 'huile'}, {word: 'زَرَافَة', translation: 'girafe'}]},
-            {letter: 'س', name: 'Sīn', examples: [{word: 'سَمَك', translation: 'poisson'}, {word: 'سُوق', translation: 'marché'}, {word: 'سَيَّارَة', translation: 'voiture'}]},
-            {letter: 'ش', name: 'Shīn', examples: [{word: 'شَمْس', translation: 'soleil'}, {word: 'شَجَرَة', translation: 'arbre'}, {word: 'شَاي', translation: 'thé'}]},
-            {letter: 'ص', name: 'Ṣād', examples: [{word: 'صَبَاح', translation: 'matin'}, {word: 'صُورَة', translation: 'image'}, {word: 'صَحْن', translation: 'assiette'}]},
-            {letter: 'ض', name: 'Ḍād', examples: [{word: 'ضَوْء', translation: 'lumière'}, {word: 'ضِفْدَع', translation: 'grenouille'}, {word: 'ضَبْع', translation: 'hyène'}]},
-            {letter: 'ط', name: 'Ṭā', examples: [{word: 'طَيْر', translation: 'oiseau'}, {word: 'طَعَام', translation: 'nourriture'}, {word: 'طَاوِلَة', translation: 'table'}]},
-            {letter: 'ظ', name: 'Ẓā', examples: [{word: 'ظُهْر', translation: 'midi'}, {word: 'ظِل', translation: 'ombre'}, {word: 'ظَرْف', translation: 'enveloppe'}]},
-            {letter: 'ع', name: 'ʿAyn', examples: [{word: 'عَيْن', translation: 'œil'}, {word: 'عَصِير', translation: 'jus'}, {word: 'عَسَل', translation: 'miel'}]},
-            {letter: 'غ', name: 'Ghayn', examples: [{word: 'غُرْفَة', translation: 'chambre'}, {word: 'غَزَال', translation: 'gazelle'}, {word: 'غَابَة', translation: 'forêt'}]},
-            {letter: 'ف', name: 'Fā', examples: [{word: 'فِيل', translation: 'éléphant'}, {word: 'فَاكِهَة', translation: 'fruit'}, {word: 'فَرَس', translation: 'cheval'}]},
-            {letter: 'ق', name: 'Qāf', examples: [{word: 'قَلَم', translation: 'stylo'}, {word: 'قِطَّة', translation: 'chat'}, {word: 'قَمَر', translation: 'lune'}]},
-            {letter: 'ك', name: 'Kāf', examples: [{word: 'كِتَاب', translation: 'livre'}, {word: 'كَلْب', translation: 'chien'}, {word: 'كُرَة', translation: 'balle'}]},
-            {letter: 'ل', name: 'Lām', examples: [{word: 'لَوْن', translation: 'couleur'}, {word: 'لُغَة', translation: 'langue'}, {word: 'لَيْل', translation: 'nuit'}]},
-            {letter: 'م', name: 'Mīm', examples: [{word: 'مَاء', translation: 'eau'}, {word: 'مَدْرَسَة', translation: 'école'}, {word: 'مَلِك', translation: 'roi'}]},
-            {letter: 'ن', name: 'Nūn', examples: [{word: 'نَار', translation: 'feu'}, {word: 'نَجْمَة', translation: 'étoile'}, {word: 'نَهْر', translation: 'fleuve'}]},
-            {letter: 'ه', name: 'Hā', examples: [{word: 'هَوَاء', translation: 'air'}, {word: 'هُدُوء', translation: 'calme'}, {word: 'هِرّ', translation: 'chat'}]},
-            {letter: 'و', name: 'Wāw', examples: [{word: 'وَرْدَة', translation: 'rose'}, {word: 'وَجْه', translation: 'visage'}, {word: 'وَلَد', translation: 'garçon'}]},
-            {letter: 'ي', name: 'Yā', examples: [{word: 'يَد', translation: 'main'}, {word: 'يَوْم', translation: 'jour'}, {word: 'يَاسَمِين', translation: 'jasmin'}]}
-        ];
-
-        let currentModule = 0;
-        let currentAlphabetLesson = 1;
-        let currentLetterIndex = 0;
-        let completedModules = [];
-        let lessonProgress = {1: {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}};
-        let correctAnswers = 0;
-        let totalQuestions = 0;
-
-        // Initialisation
-        function init() {
-            updateProgress();
-            showModuleSelection();
-        }
-
-        function updateProgress() {
-            const totalModules = 5;
-            const progressPercentage = (completedModules.length / totalModules) * 100;
-            document.getElementById('progressFill').style.width = progressPercentage + '%';
-            document.getElementById('progressText').textContent = `Progression : ${Math.round(progressPercentage)}%`;
-        }
-
-        function showModuleSelection() {
-            document.getElementById('moduleSelection').style.display = 'block';
-            document.querySelectorAll('.lesson-content').forEach(content => {
-                content.classList.remove('active');
-            });
-        }
-
-        function showModule(moduleNum) {
-            if (moduleNum > 1 && !completedModules.includes(moduleNum - 1)) {
-                alert('Vous devez terminer le module précédent avant d\'accéder à celui-ci.');
-                return;
-            }
-
-            currentModule = moduleNum;
-            document.getElementById('moduleSelection').style.display = 'none';
-            document.querySelectorAll('.lesson-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById('module' + moduleNum).classList.add('active');
-            
-            if (moduleNum === 1) {
-                showAlphabetLesson(1);
-            }
-        }
-
-        function showAlphabetLesson(lessonNum) {
-            currentAlphabetLesson = lessonNum;
-            
-            // Mettre à jour les boutons de navigation des leçons
-            document.querySelectorAll('.lesson-nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelectorAll('.lesson-nav-btn')[lessonNum - 1].classList.add('active');
-            
-            // Afficher la bonne leçon
-            document.querySelectorAll('.alphabet-lesson').forEach(lesson => {
-                lesson.style.display = 'none';
-            });
-            document.getElementById('alphabetLesson' + lessonNum).style.display = 'block';
-            
-            // Masquer les détails de lettre
-            document.querySelectorAll('.letter-detail').forEach(detail => {
-                detail.style.display = 'none';
-            });
-            
-            // Mettre à jour les boutons de navigation
-            updateAlphabetNavigation();
-        }
-
-        function updateAlphabetNavigation() {
-            const prevBtn = document.getElementById('prevAlphabetBtn');
-            const nextBtn = document.getElementById('nextAlphabetBtn');
-            
-            prevBtn.disabled = currentAlphabetLesson === 1;
-            nextBtn.disabled = currentAlphabetLesson === 5;
-            
-            if (currentAlphabetLesson === 5) {
-                nextBtn.textContent = 'Terminer le module';
-            } else {
-                nextBtn.textContent = 'Leçon suivante';
-            }
-        }
-
-        function prevAlphabetLesson() {
-            if (currentAlphabetLesson > 1) {
-                showAlphabetLesson(currentAlphabetLesson - 1);
-            }
-        }
-
-        function nextAlphabetLesson() {
-            if (currentAlphabetLesson < 5) {
-                showAlphabetLesson(currentAlphabetLesson + 1);
-            } else {
-                // Afficher le message de completion du module 1
-                document.getElementById('module1Complete').style.display = 'block';
-                document.getElementById('module1Complete').scrollIntoView({behavior: 'smooth'});
-            }
-        }
-
-        function showLetterDetail(letterIndex) {
-            const letter = arabicAlphabet[letterIndex];
-            const currentLesson = currentAlphabetLesson;
-            
-            // Masquer tous les détails
-            document.querySelectorAll('.letter-detail').forEach(detail => {
-                detail.style.display = 'none';
-            });
-            
-            // Afficher le bon détail
-            const detailElement = document.getElementById('letterDetail' + currentLesson);
-            const titleElement = document.getElementById('letterTitle' + currentLesson);
-            const letterElement = document.getElementById('currentLetter' + currentLesson);
-            const examplesElement = document.getElementById('letterExamples' + currentLesson);
-            
-            titleElement.textContent = `Lettre : ${letter.name}`;
-            letterElement.textContent = letter.letter;
-            
-            // Générer les exemples
-            examplesElement.innerHTML = '';
-            letter.examples.forEach(example => {
-                const exampleCard = document.createElement('div');
-                exampleCard.className = 'example-card';
-                exampleCard.innerHTML = `
-                    <div class="arabic-example">${example.word}</div>
-                    <div class="translation">${example.translation}</div>
-                    <button class="audio-btn" onclick="playWordSound('${example.word}')">🔊</button>
-                `;
-                examplesElement.appendChild(exampleCard);
-            });
-            
-            detailElement.style.display = 'block';
-            detailElement.scrollIntoView({behavior: 'smooth'});
-            
-            // Marquer la lettre comme visitée
-            document.querySelectorAll('.letter-card').forEach(card => {
-                card.classList.remove('current');
-            });
-            event.target.closest('.letter-card').classList.add('current');
-        }
-
-        function checkAnswer(button, isCorrect, lesson, questionNum) {
-            // Désactiver tous les boutons de cette question
-            const questionDiv = button.closest('.quiz-question');
-            const allOptions = questionDiv.querySelectorAll('.quiz-option');
-            
-            allOptions.forEach(option => {
-                option.disabled = true;
-                if (option === button) {
-                    if (isCorrect) {
-                        option.classList.add('correct');
-                        correctAnswers++;
-                    } else {
-                        option.classList.add('incorrect');
-                    }
-                } else if (option.onclick.toString().includes('true')) {
-                    option.classList.add('correct');
-                }
-            });
-            
-            totalQuestions++;
-            
-            // Mettre à jour le progrès de la leçon
-            lessonProgress[1][lesson]++;
-            
-            // Afficher un message encourageant
-            setTimeout(() => {
-                if (isCorrect) {
-                    showFeedback('✅ Excellent ! Bonne réponse !', 'success');
-                } else {
-                    showFeedback('❌ Pas tout à fait, mais continuez !', 'error');
-                }
-            }, 500);
-        }
-
-        function showFeedback(message, type) {
-            const feedback = document.createElement('div');
-            feedback.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 15px 20px;
-                border-radius: 10px;
-                color: white;
-                font-weight: bold;
-                z-index: 1000;
-                transform: translateX(100%);
-                transition: transform 0.3s ease;
-            `;
-            
-            if (type === 'success') {
-                feedback.style.background = 'linear-gradient(135deg, #27ae60, #229954)';
-            } else {
-                feedback.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
-            }
-            
-            feedback.textContent = message;
-            document.body.appendChild(feedback);
-            
-            // Animer l'entrée
-            setTimeout(() => {
-                feedback.style.transform = 'translateX(0)';
-            }, 100);
-            
-            // Retirer après 3 secondes
-            setTimeout(() => {
-                feedback.style.transform = 'translateX(100%)';
-                setTimeout(() => {
-                    feedback.remove();
-                }, 300);
-            }, 3000);
-        }
-
-        function completeModule(moduleNum) {
-            if (!completedModules.includes(moduleNum)) {
-                completedModules.push(moduleNum);
-                
-                // Débloquer le module suivant
-                const nextModuleCard = document.querySelector(`[data-module="${moduleNum + 1}"]`);
-                if (nextModuleCard) {
-                    nextModuleCard.classList.remove('locked');
-                }
-                
-                // Marquer le module comme terminé
-                const currentModuleCard = document.querySelector(`[data-module="${moduleNum}"]`);
-                if (currentModuleCard) {
-                    currentModuleCard.classList.add('completed');
-                }
-                
-                updateProgress();
-                showFeedback(`🎉 Module ${moduleNum} terminé ! Module ${moduleNum + 1} débloqué !`, 'success');
-                
-                setTimeout(() => {
-                    showModuleSelection();
-                }, 2000);
-            }
-        }
-
-        function playLetterSound() {
-            // Simulation du son - dans une vraie application, vous utiliseriez l'API Web Audio
-            showFeedback('🔊 Son de la lettre (simulation)', 'success');
-        }
-
-        function playWordSound(word) {
-            // Simulation du son - dans une vraie application, vous utiliseriez l'API Web Audio
-            showFeedback(`🔊 Prononciation de "${word}" (simulation)`, 'success');
-        }
-
-        // Gestion des clics sur les cartes de module
-        document.addEventListener('DOMContentLoaded', function() {
-            const moduleCards = document.querySelectorAll('.module-card');
-            moduleCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    if (!this.classList.contains('locked')) {
-                        const moduleNum = parseInt(this.dataset.module);
-                        showModule(moduleNum);
-                    }
-                });
-            });
-            
-            init();
-        });
-    </script>
-</body>
-</html> 1, 1)">Alif</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, true, 1, 1)">Bā</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 1, 1)">Tā</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 1, 1)">Thā</button>
+                            <button class="quiz-option" onclick="checkAnswer(this, false)">Alif</button>
+                            <button class="quiz-option" onclick="checkAnswer(this, true)">Bā</button>
+                            <button class="quiz-option" onclick="checkAnswer(this, false)">Tā</button>
+                            <button class="quiz-option" onclick="checkAnswer(this, false)">Thā</button>
                         </div>
                     </div>
                     
                     <div class="quiz-question">
                         <p style="font-size: 1.1em;">Trouvez la lettre "Jīm" :</p>
                         <div class="quiz-options">
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 1, 2)">ح</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, true, 1, 2)">ج</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 1, 2)">ث</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 1, 2)">ت</button>
+                            <button class="quiz-option" onclick="checkAnswer(this, false)">ح</button>
+                            <button class="quiz-option" onclick="checkAnswer(this, true)">ج</button>
+                            <button class="quiz-option" onclick="checkAnswer(this, false)">ث</button>
+                            <button class="quiz-option" onclick="checkAnswer(this, false)">ت</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Leçon 2: Lettres Khā à Sīn -->
-            <div id="alphabetLesson2" class="alphabet-lesson" style="display: none;">
+            <div id="alphabetLesson2" class="alphabet-lesson">
                 <h3 style="text-align: center; color: #2c3e50; margin-bottom: 25px;">Leçon 2 : Lettres Khā à Sīn</h3>
                 
                 <div class="alphabet-grid">
-                    <div class="letter-card" onclick="showLetterDetail(6)">
+                    <div class="letter-card" onclick="showLetterDetail(6, 2)">
                         <div class="arabic-letter">خ</div>
                         <div class="letter-name">Khā</div>
                     </div>
-                    <div class="letter-card" onclick="showLetterDetail(7)">
+                    <div class="letter-card" onclick="showLetterDetail(7, 2)">
                         <div class="arabic-letter">د</div>
                         <div class="letter-name">Dāl</div>
                     </div>
-                    <div class="letter-card" onclick="showLetterDetail(8)">
+                    <div class="letter-card" onclick="showLetterDetail(8, 2)">
                         <div class="arabic-letter">ذ</div>
                         <div class="letter-name">Dhāl</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(9)">
-                        <div class="arabic-letter">ر</div>
-                        <div class="letter-name">Rā</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(10)">
-                        <div class="arabic-letter">ز</div>
-                        <div class="letter-name">Zāy</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(11)">
-                        <div class="arabic-letter">س</div>
-                        <div class="letter-name">Sīn</div>
-                    </div>
-                </div>
-
-                <div class="letter-detail" id="letterDetail2" style="display: none;">
-                    <h3 id="letterTitle2" style="color: #2c3e50; margin-bottom: 15px;"></h3>
-                    <div class="arabic-text" id="currentLetter2"></div>
-                    <button class="audio-btn" onclick="playLetterSound()">🔊 Écouter la prononciation</button>
-                    
-                    <div class="examples-grid" id="letterExamples2">
-                        <!-- Exemples générés par JavaScript -->
-                    </div>
-                </div>
-
-                <div class="exercise-section">
-                    <h3 class="exercise-title">🎯 Exercice 2 : Lettres similaires</h3>
-                    <div class="quiz-question">
-                        <p style="font-size: 1.1em;">Différenciez "Dāl" et "Dhāl" :</p>
-                        <div class="quiz-options">
-                            <button class="quiz-option" onclick="checkAnswer(this, true, 2, 1)">د = Dāl, ذ = Dhāl</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 2, 1)">د = Dhāl, ذ = Dāl</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 2, 1)">د = Rā, ذ = Zāy</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 2, 1)">Les deux sont identiques</button>
-                        </div>
-                    </div>
-                    
-                    <div class="quiz-question">
-                        <p style="font-size: 1.1em;">Trouvez la lettre "Sīn" :</p>
-                        <div class="quiz-options">
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 2, 2)">ز</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, true, 2, 2)">س</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 2, 2)">ر</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 2, 2)">خ</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Leçon 3: Lettres Shīn à Ghayn -->
-            <div id="alphabetLesson3" class="alphabet-lesson" style="display: none;">
-                <h3 style="text-align: center; color: #2c3e50; margin-bottom: 25px;">Leçon 3 : Lettres emphatiques (Shīn à Ghayn)</h3>
-                
-                <div class="alphabet-grid">
-                    <div class="letter-card" onclick="showLetterDetail(12)">
-                        <div class="arabic-letter">ش</div>
-                        <div class="letter-name">Shīn</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(13)">
-                        <div class="arabic-letter">ص</div>
-                        <div class="letter-name">Ṣād</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(14)">
-                        <div class="arabic-letter">ض</div>
-                        <div class="letter-name">Ḍād</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(15)">
-                        <div class="arabic-letter">ط</div>
-                        <div class="letter-name">Ṭā</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(16)">
-                        <div class="arabic-letter">ظ</div>
-                        <div class="letter-name">Ẓā</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(17)">
-                        <div class="arabic-letter">ع</div>
-                        <div class="letter-name">ʿAyn</div>
-                    </div>
-                    <div class="letter-card" onclick="showLetterDetail(18)">
-                        <div class="arabic-letter">غ</div>
-                        <div class="letter-name">Ghayn</div>
-                    </div>
-                </div>
-
-                <div class="letter-detail" id="letterDetail3" style="display: none;">
-                    <h3 id="letterTitle3" style="color: #2c3e50; margin-bottom: 15px;"></h3>
-                    <div class="arabic-text" id="currentLetter3"></div>
-                    <button class="audio-btn" onclick="playLetterSound()">🔊 Écouter la prononciation</button>
-                    
-                    <div class="examples-grid" id="letterExamples3">
-                        <!-- Exemples générés par JavaScript -->
-                    </div>
-                </div>
-
-                <div class="exercise-section">
-                    <h3 class="exercise-title">🎯 Exercice 3 : Lettres emphatiques</h3>
-                    <div class="quiz-question">
-                        <p style="font-size: 1.1em;">Laquelle de ces lettres est "Ṣād" (emphatique) :</p>
-                        <div class="quiz-options">
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 3, 1)">س (Sīn)</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, true, 3, 1)">ص (Ṣād)</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false, 3, 1)">ش (Shīn)</button>
-                            <button class="quiz-option" onclick="checkAnswer(this, false,

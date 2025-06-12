@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apprendre à lire l'arabe - Méthode progressive</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f39c12, #e74c3c);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .module-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .module-card.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .module-card.locked::after {
+            content: "🔒";
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.2em;
+        }
+
+        .module-card.completed::after {
+            content: "✅";
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.2em;
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .module-number {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .module-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .module-description {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .lesson-content {
+            display: none;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .lesson-content.active {
+            display: block;
+        }
+
+        .arabic-text {
+            font-family: 'Arial Unicode MS', 'Tahoma', sans-serif;
+            font-size: 2.5em;
+            text-align: center;
+            margin: 20px 0;
+            direction: rtl;
+        }
+
+        .highlighted-letter {
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .example-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .example-card:hover {
+            border-color: #3498db;
+            transform: scale(1.02);
+        }
+
+        .arabic-example {
+            font-size: 2em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            direction: rtl;
+        }
+
+        .translation {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .letter-card {
+            background: white;
+            border: 3px solid #ecf0f1;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .letter-card:hover {
+            border-color: #3498db;
+            transform: scale(1.05);
+        }
+
+        .letter-card.current {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        .arabic-letter {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .letter-name {
+            font-size: 0.8em;
+            color: #7f8c8d;
+        }
+
+        .forms-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .forms-table th {
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .forms-table td {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #ecf0f1;
+            font-size: 1.8em;
+        }
+
+        .forms-table td.highlighted {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .vowel-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .vowel-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .vowel-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .vowel-symbol {
+            font-size: 3em;
+            color: #e74c3c;
+            margin: 15px 0;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(127, 140, 141, 0.4);
+        }
+
+        .lesson-progress {
+            text-align: center;
+            margin: 20px 0;
+            color: #7f8c8d;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .arabic-text {
+                font-size: 2em;
+            }
+            
+            .alphabet-grid {
+                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌟 Apprendre à lire l'arabe</h1>
+            <p class="subtitle">Méthode progressive et structurée</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="lesson-progress" id="progressText">Progression : 0%</div>
+        </header>
+
+        <div id="moduleSelection">
+            <div class="modules-grid">
+                <div class="module-card" data-module="1">
+                    <div class="module-header">
+                        <div class="module-number">1</div>
+                        <div class="module-title">Alphabet isolé</div>
+                    </div>
+                    <div class="module-description">
+                        Apprendre les 28 lettres de l'alphabet arabe dans leur forme isolée
+                    </div>
+                    <div style="margin-top: 15px; color: #3498db;">
+                        <strong>28 lettres • 5 leçons</strong>
+                    </div>
+                </div>
+
+                <div class="module-card locked" data-module="2">
+                    <div class="module-header">
+                        <div class="module-number">2</div>
+                        <div class="module-title">Formes contextuelles</div>
+                    </div>
+                    <div class="module-description">
+                        Découvrir les formes des lettres au début, milieu et fin des mots
+                    </div>
+                    <div style="margin-top: 15px; color: #3498db;">
+                        <strong>4 formes par lettre • 6 leçons</strong>
+                    </div>
+                </div>
+
+                <div class="module-card locked" data-module="3">
+                    <div class="module-header">
+                        <div class="module-number">3</div>
+                        <div class="module-title">Voyelles courtes</div>
+                    </div>
+                    <div class="module-description">
+                        Maîtriser les voyelles fatha, kasra et damma
+                    </div>
+                    <div style="margin-top: 15px; color: #3498db;">
+                        <strong>3 voyelles • 4 leçons</strong>
+                    </div>
+                </div>
+
+                <div class="module-card locked" data-module="4">
+                    <div class="module-header">
+                        <div class="module-number">4</div>
+                        <div class="module-title">Voyelles longues</div>
+                    </div>
+                    <div class="module-description">
+                        Apprendre les voyelles longues et les tanwin
+                    </div>
+                    <div style="margin-top: 15px; color: #3498db;">
+                        <strong>6 éléments • 3 leçons</strong>
+                    </div>
+                </div>
+
+                <div class="module-card locked" data-module="5">
+                    <div class="module-header">
+                        <div class="module-number">5</div>
+                        <div class="module-title">Lecture complète</div>
+                    </div>
+                    <div class="module-description">
+                        Lire des mots et phrases complètes en arabe
+                    </div>
+                    <div style="margin-top: 15px; color: #3498db;">
+                        <strong>Textes variés • 4 leçons</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Module 1: Alphabet isolé -->
+        <div class="lesson-content" id="module1">
+            <button class="back-btn" onclick="showModuleSelection()">← Retour aux modules</button>
+            <h2>Module 1 : Alphabet isolé</h2>
+            <p>Découvrez les 28 lettres de l'alphabet arabe dans leur forme isolée. Chaque lettre est présentée avec sa prononciation et des exemples.</p>
+            
+            <div class="alphabet-grid" id="alphabetGrid">
+                <!-- Les lettres seront générées par JavaScript -->
+            </div>
+
+            <div id="letterDetail" style="display: none;">
+                <h3 id="letterTitle"></h3>
+                <div class="arabic-text" id="currentLetter"></div>
+                <div class="examples-grid" id="letterExamples">
+                    <!-- Exemples générés par JavaScript -->
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-btn" onclick="prevLetter()" id="prevBtn">Précédent</button>
+                <button class="nav-btn" onclick="nextLetter()" id="nextBtn">Suivant</button>
+            </div>
+        </div>
+
+        <!-- Module 2: Formes contextuelles -->
+        <div class="lesson-content" id="module2">
+            <button class="back-btn" onclick="showModuleSelection()">← Retour aux modules</button>
+            <h2>Module 2 : Formes contextuelles</h2>
+            <p>Apprenez comment les lettres changent de forme selon leur position dans le mot.</p>
+            
+            <div id="formsContent">
+                <table class="forms-table">
+                    <thead>
+                        <tr>
+                            <th>Lettre</th>
+                            <th>Isolée</th>
+                            <th>Début</th>
+                            <th>Milieu</th>
+                            <th>Fin</th>
+                        </tr>
+                    </thead>
+                    <tbody id="formsTableBody">
+                        <!-- Contenu généré par JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-btn" onclick="prevFormsLesson()">Précédent</button>
+                <button class="nav-btn" onclick="nextFormsLesson()">Suivant</button>
+            </div>
+        </div>
+
+        <!-- Module 3: Voyelles courtes -->
+        <div class="lesson-content" id="module3">
+            <button class="back-btn" onclick="showModuleSelection()">← Retour aux modules</button>
+            <h2>Module 3 : Voyelles courtes</h2>
+            <p>Maîtrisez les trois voyelles courtes essentielles de l'arabe.</p>
+            
+            <div class="vowel-examples">
+                <div class="vowel-card">
+                    <div class="vowel-name">Fatha (a)</div>
+                    <div class="vowel-symbol">بَ</div>
+                    <div class="arabic-example">كَتَبَ</div>
+                    <div class="translation">kataba (il a écrit)</div>
+                </div>
+                <div class="vowel-card">
+                    <div class="vowel-name">Kasra (i)</div>
+                    <div class="vowel-symbol">بِ</div>
+                    <div class="arabic-example">كِتَابٌ</div>
+                    <div class="translation">kitabun (un livre)</div>
+                </div>
+                <div class="vowel-card">
+                    <div class="vowel-name">Damma (u)</div>
+                    <div class="vowel-symbol">بُ</div>
+                    <div class="arabic-example">كُتُبٌ</div>
+                    <div class="translation">kutubun (des livres)</div>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-btn" onclick="prevVowelLesson()">Précédent</button>
+                <button class="nav-btn" onclick="nextVowelLesson()">Suivant</button>
+            </div>
+        </div>
+
+        <!-- Module 4: Voyelles longues -->
+        <div class="lesson-content" id="module4">
+            <button class="back-btn" onclick="showModuleSelection()">← Retour aux modules</button>
+            <h2>Module 4 : Voyelles longues</h2>
+            <p>Découvrez les voyelles longues et les tanwin qui enrichissent la lecture arabe.</p>
+            
+            <div class="vowel-examples">
+                <div class="vowel-card">
+                    <div class="vowel-name">Alif (ā)</div>
+                    <div class="vowel-symbol">بَا</div>
+                    <div class="arabic-example">بَاب</div>
+                    <div class="translation">bāb (porte)</div>
+                </div>
+                <div class="vowel-card">
+                    <div class="vowel-name">Yā (ī)</div>
+                    <div class="vowel-symbol">بِي</div>
+                    <div class="arabic-example">كَبِير</div>
+                    <div class="translation">kabīr (grand)</div>
+                </div>
+                <div class="vowel-card">
+                    <div class="vowel-name">Wāw (ū)</div>
+                    <div class="vowel-symbol">بُو</div>
+                    <div class="arabic-example">نُور</div>
+                    <div class="translation">nūr (lumière)</div>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-btn" onclick="prevLongVowelLesson()">Précédent</button>
+                <button class="nav-btn" onclick="nextLongVowelLesson()">Suivant</button>
+            </div>
+        </div>
+
+        <!-- Module 5: Lecture complète -->
+        <div class="lesson-content" id="module5">
+            <button class="back-btn" onclick="showModuleSelection()">← Retour aux modules</button>
+            <h2>Module 5 : Lecture complète</h2>
+            <p>Félicitations ! Vous pouvez maintenant lire des textes arabes complets.</p>
+            
+            <div class="examples-grid">
+                <div class="example-card">
+                    <div class="arabic-example">بِسْمِ اللهِ الرَّحْمَنِ الرَّحِيم</div>
+                    <div class="translation">Au nom d'Allah, le Très Miséricordieux, le Miséricordieux</div>
+                </div>
+                <div class="example-card">
+                    <div class="arabic-example">الحَمْدُ لِلَّهِ رَبِّ العَالَمِين</div>
+                    <div class="translation">Louange à Allah, Seigneur des mondes</div>
+                </div>
+                <div class="example-card">
+                    <div class="arabic-example">وَاللهُ أَعْلَم</div>
+                    <div class="translation">Et Allah sait mieux</div>
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-btn" onclick="completeProgram()">Terminer le programme</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Données de l'alphabet arabe
+        const arabicAlphabet = [
+            {letter: 'ا', name: 'Alif', examples: [{word: 'أَب', translation: 'père'}, {word: 'أُم', translation: 'mère'}]},
+            {letter: 'ب', name: 'Bā', examples: [{word: 'بَيْت', translation: 'maison'}, {word: 'بَاب', translation: 'porte'}]},
+            {letter: 'ت', name: 'Tā', examples: [{word: 'تُفَّاح', translation: 'pomme'}, {word: 'تِلْمِيذ', translation: 'élève'}]},
+            {letter: 'ث', name: 'Thā', examples: [{word: 'ثَلْج', translation: 'neige'}, {word: 'ثَوْب', translation: 'vêtement'}]},
+            {letter: 'ج', name: 'Jīm', examples: [{word: 'جَمَل', translation: 'chameau'}, {word: 'جَمِيل', translation: 'beau'}]},
+            {letter: 'ح', name: 'Ḥā', examples: [{word: 'حَلِيب', translation: 'lait'}, {word: 'حَدِيقَة', translation: 'jardin'}]},
+            {letter: 'خ', name: 'Khā', examples: [{word: 'خُبْز', translation: 'pain'}, {word: 'خَضَر', translation: 'légumes'}]},
+            {letter: 'د', name: 'Dāl', examples: [{word: 'دَار', translation: 'maison'}, {word: 'دَرْس', translation: 'leçon'}]},
+            {letter: 'ذ', name: 'Dhāl', examples: [{word: 'ذَهَب', translation: 'or'}, {word: 'ذِئْب', translation: 'loup'}]},
+            {letter: 'ر', name: 'Rā', examples: [{word: 'رَأْس', translation: 'tête'}, {word: 'رِجْل', translation: 'pied'}]},
+            {letter: 'ز', name: 'Zāy', examples: [{word: 'زَهْرَة', translation: 'fleur'}, {word: 'زَيْت', translation: 'huile'}]},
+            {letter: 'س', name: 'Sīn', examples: [{word: 'سَمَك', translation: 'poisson'}, {word: 'سُوق', translation: 'marché'}]},
+            {letter: 'ش', name: 'Shīn', examples: [{word: 'شَمْس', translation: 'soleil'}, {word: 'شَجَرَة', translation: 'arbre'}]},
+            {letter: 'ص', name: 'Ṣād', examples: [{word: 'صَبَاح', translation: 'matin'}, {word: 'صُورَة', translation: 'image'}]},
+            {letter: 'ض', name: 'Ḍād', examples: [{word: 'ضَوْء', translation: 'lumière'}, {word: 'ضِفْدَع', translation: 'grenouille'}]},
+            {letter: 'ط', name: 'Ṭā', examples: [{word: 'طَيْر', translation: 'oiseau'}, {word: 'طَعَام', translation: 'nourriture'}]},
+            {letter: 'ظ', name: 'Ẓā', examples: [{word: 'ظُهْر', translation: 'midi'}, {word: 'ظِل', translation: 'ombre'}]},
+            {letter: 'ع', name: 'ʿAyn', examples: [{word: 'عَيْن', translation: 'œil'}, {word: 'عَصِير', translation: 'jus'}]},
+            {letter: 'غ', name: 'Ghayn', examples: [{word: 'غُرْفَة', translation: 'chambre'}, {word: 'غَزَال', translation: 'gazelle'}]},
+            {letter: 'ف', name: 'Fā', examples: [{word: 'فِيل', translation: 'éléphant'}, {word: 'فَاكِهَة', translation: 'fruit'}]},
+            {letter: 'ق', name: 'Qāf', examples: [{word: 'قَلَم', translation: 'stylo'}, {word: 'قِطَّة', translation: 'chat'}]},
+            {letter: 'ك', name: 'Kāf', examples: [{word: 'كِتَاب', translation: 'livre'}, {word: 'كَلْب', translation: 'chien'}]},
+            {letter: 'ل', name: 'Lām', examples: [{word: 'لَوْن', translation: 'couleur'}, {word: 'لُغَة', translation: 'langue'}]},
+            {letter: 'م', name: 'Mīm', examples: [{word: 'مَاء', translation: 'eau'}, {word: 'مَدْرَسَة', translation: 'école'}]},
+            {letter: 'ن', name: 'Nūn', examples: [{word: 'نَار', translation: 'feu'}, {word: 'نَجْمَة', translation: 'étoile'}]},
+            {letter: 'ه', name: 'Hā', examples: [{word: 'هَوَاء', translation: 'air'}, {word: 'هُدُوء', translation: 'calme'}]},
+            {letter: 'و', name: 'Wāw', examples: [{word: 'وَرْدَة', translation: 'rose'}, {word: 'وَجْه', translation: 'visage'}]},
+            {letter: 'ي', name: 'Yā', examples: [{word: 'يَد', translation: 'main'}, {word: 'يَوْم', translation: 'jour'}]}
+        ];
+
+        let currentModule = 0;
+        let currentLetterIndex = 0;
+        let completedModules = [];
+
+        // Initialisation
+        function init() {
+            updateProgress();
+            generateAlphabetGrid();
+        }
+
+        function showModuleSelection() {
+            document.getElementById('moduleSelection').style.display = 'block';
+            document.querySelectorAll('.lesson-content').forEach(content => {
+                content.classList.remove('active');
+            });
+        }
+
+        function showModule(moduleNum) {
+            if (moduleNum > 1 && !completedModules.includes(moduleNum - 1)) {
+                alert('Vous devez terminer le module précédent avant d\'accéder à celui-ci.');
+                return;
+            }
+
+            currentModule = moduleNum;
+            document.getElementById('moduleSelection').style.display = 'none';
+            document.querySelectorAll('.lesson
